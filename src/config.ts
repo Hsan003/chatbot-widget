@@ -14,7 +14,12 @@ export const DEFAULT_FONT_FAMILY =
 export const API_CONFIG = {
   // API base URL - override via VITE_API_BASE_URL environment variable
   // Falls back to production URL if not configured
-  API_BASE_URL: import.meta.env.VITE_API_BASE_URL || "https://api.yourdomain.com",
+  // Normalized: a missing "https://" makes fetch() treat it as a path on the host page,
+  // and a trailing "/" produces "//api/..." (404)
+  API_BASE_URL: (import.meta.env.VITE_API_BASE_URL || "https://api.yourdomain.com")
+    .trim()
+    .replace(/^(?!https?:\/\/)/, "https://")
+    .replace(/\/+$/, ""),
 
   // Widget version for cache busting and tracking
   // Override via VITE_WIDGET_VERSION environment variable
