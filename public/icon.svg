@@ -1,0 +1,19 @@
+<svg viewBox="9.36 9.35064935064935 144.56 143.37662337662337" xmlns="http://www.w3.org/2000/svg" style="max-height: 500px" width="144.56" height="143.37662337662337">
+  
+
+  
+  <circle stroke-width="2.2" stroke="#7C6FDC" fill="none" r="66" cy="80" cx="80"/>
+
+  
+  <path fill="#7C6FDC" d="M 52 72&#10;    C 58 60, 80 56, 100 65&#10;    C 114 72, 116 84, 102 93&#10;    L 90 97&#10;    C 103 89, 106 78, 95 70&#10;    C 82 61, 62 65, 56 74&#10;    Z"/>
+
+  
+  <line stroke-linecap="round" stroke-width="2.2" stroke="#7C6FDC" y2="79" x2="40" y1="72" x1="53"/>
+  <line stroke-linecap="round" stroke-width="2.2" stroke="#7C6FDC" y2="84" x2="38" y1="78" x1="52"/>
+  <line stroke-linecap="round" stroke-width="2.2" stroke="#7C6FDC" y2="91" x2="39" y1="84" x1="53"/>
+  <line stroke-linecap="round" stroke-width="2.2" stroke="#7C6FDC" y2="98" x2="43" y1="90" x1="55"/>
+  <line stroke-linecap="round" stroke-width="2.2" stroke="#7C6FDC" y2="104" x2="48" y1="95" x1="58"/>
+
+  
+  <text fill="#7C6FDC" letter-spacing="7" font-size="48" font-weight="300" font-family="'Helvetica Neue', Helvetica, Arial, sans-serif" y="100" x="170">DARMODE</text>
+</svg>
