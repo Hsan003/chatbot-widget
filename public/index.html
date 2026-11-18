@@ -1,8 +1,457 @@
 <!doctype html>
-<html>
-<head><meta charset="UTF-8"><title>Widget test</title></head>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chat Assistant: Live Demo</title>
+  <meta name="description" content="An AI chat assistant any business can add to its website with one line of code, branded and trained for that business." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --accent: #5b4fe0;
+      --accent-dark: #4338ca;
+      --accent-soft: #eeecff;
+      --ink: #0f1222;
+      --ink-2: #4a4f68;
+      --ink-3: #7c8199;
+      --line: #e6e8f0;
+      --bg: #ffffff;
+      --bg-2: #f7f8fc;
+      --radius: 16px;
+      --shadow: 0 1px 2px rgba(15,18,34,.04), 0 8px 24px rgba(15,18,34,.06);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; text-decoration: none; }
+    .wrap { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+    .hero .wrap > *, .custom > *, .integ > * { min-width: 0; }
+    @media (max-width: 600px) { .wrap { padding: 0 16px; } }
+
+    /* ── Buttons ── */
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 12px 20px; border-radius: 12px;
+      font: 600 15px/1 inherit; cursor: pointer; border: 1px solid transparent;
+      transition: transform .15s ease, box-shadow .15s ease, background .15s ease;
+    }
+    .btn-primary { background: var(--accent); color: #fff; box-shadow: 0 6px 20px rgba(91,79,224,.35); }
+    .btn-primary:hover { background: var(--accent-dark); transform: translateY(-1px); }
+    .btn-ghost { background: #fff; color: var(--ink); border-color: var(--line); }
+    .btn-ghost:hover { border-color: #cfd3e3; transform: translateY(-1px); }
+
+    /* ── Nav ── */
+    nav { position: sticky; top: 0; z-index: 50; background: rgba(255,255,255,.85); backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+    nav .wrap { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .brand { display: flex; align-items: center; gap: 10px; font-weight: 700; font-size: 17px; }
+    .brand-mark { width: 32px; height: 32px; border-radius: 10px; background: linear-gradient(135deg, var(--accent), #8b5cf6); display: grid; place-items: center; color: #fff; }
+    .pill { font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; background: var(--accent-soft); color: var(--accent-dark); }
+    .nav-links { display: flex; gap: 28px; font-size: 14px; color: var(--ink-2); font-weight: 500; }
+    .nav-links a:hover { color: var(--ink); }
+    @media (max-width: 860px) { .nav-links { display: none; } }
+
+    /* ── Hero ── */
+    .hero { position: relative; overflow: hidden; padding: 80px 0 96px; background:
+      radial-gradient(900px 400px at 85% -10%, rgba(139,92,246,.14), transparent 60%),
+      radial-gradient(700px 400px at -10% 20%, rgba(91,79,224,.10), transparent 60%); }
+    .hero .wrap { display: grid; grid-template-columns: 1.1fr .9fr; gap: 56px; align-items: center; }
+    @media (max-width: 920px) { .hero .wrap { grid-template-columns: 1fr; } .hero { padding: 56px 0 72px; } }
+    .eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; color: var(--accent-dark); background: #fff; border: 1px solid var(--line); padding: 6px 12px 6px 8px; border-radius: 999px; box-shadow: var(--shadow); }
+    .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 0 4px rgba(34,197,94,.18); }
+    h1 { font-size: clamp(34px, 5vw, 54px); line-height: 1.08; letter-spacing: -.03em; font-weight: 800; margin: 20px 0 18px; }
+    h1 .grad { background: linear-gradient(90deg, var(--accent), #8b5cf6); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .lead { font-size: 18px; color: var(--ink-2); max-width: 540px; }
+    .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .hero-note { margin-top: 18px; font-size: 13px; color: var(--ink-3); display: flex; align-items: center; gap: 8px; }
+
+    /* Preview mock */
+    .mock { background: #fff; border-radius: 20px; box-shadow: 0 0 0 1px rgba(15,18,34,.05), 0 30px 70px rgba(15,18,34,.16); overflow: hidden; max-width: 380px; width: 100%; justify-self: center; }
+    .mock-head { padding: 16px; color: #fff; background: linear-gradient(145deg, var(--accent), #3b2fb8); display: flex; align-items: center; gap: 10px; }
+    .mock-av { width: 36px; height: 36px; border-radius: 11px; background: rgba(255,255,255,.2); display: grid; place-items: center; font-weight: 700; }
+    .mock-head b { display: block; font-size: 15px; }
+    .mock-head small { font-size: 12px; opacity: .85; }
+    .mock-body { padding: 18px 16px; background: #f5f7fb; display: flex; flex-direction: column; gap: 10px; min-height: 280px; }
+    .bub { max-width: 82%; padding: 10px 13px; border-radius: 14px; font-size: 14px; line-height: 1.45; }
+    .bub.bot { background: #fff; border: 1px solid var(--line); border-bottom-left-radius: 4px; align-self: flex-start; }
+    .bub.user { background: var(--accent); color: #fff; border-bottom-right-radius: 4px; align-self: flex-end; }
+    .typing { display: inline-flex; gap: 4px; padding: 12px 14px; }
+    .typing i { width: 6px; height: 6px; border-radius: 50%; background: #a3a8bf; animation: blink 1.2s infinite; }
+    .typing i:nth-child(2) { animation-delay: .18s; } .typing i:nth-child(3) { animation-delay: .36s; }
+    @keyframes blink { 0%,80%,100% { opacity: .3; transform: translateY(0); } 40% { opacity: 1; transform: translateY(-3px); } }
+    .mock-foot { padding: 12px 16px; border-top: 1px solid var(--line); font-size: 13px; color: var(--ink-3); display: flex; justify-content: space-between; align-items: center; }
+    .mock-label { text-align: center; font-size: 12px; color: var(--ink-3); margin-top: 12px; }
+
+    /* ── Sections ── */
+    section { padding: 88px 0; }
+    section.alt { background: var(--bg-2); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .sec-head { max-width: 640px; margin-bottom: 48px; }
+    .sec-head .kicker { font-size: 13px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--accent); }
+    h2 { font-size: clamp(28px, 3.6vw, 38px); line-height: 1.15; letter-spacing: -.02em; margin: 10px 0 14px; }
+    .sec-head p { color: var(--ink-2); font-size: 17px; }
+
+    .grid { display: grid; gap: 20px; grid-template-columns: repeat(3, 1fr); }
+    @media (max-width: 920px) { .grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 600px) { .grid { grid-template-columns: 1fr; } }
+    .card { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; box-shadow: var(--shadow); transition: transform .2s ease, box-shadow .2s ease; }
+    .card:hover { transform: translateY(-3px); box-shadow: 0 2px 4px rgba(15,18,34,.04), 0 16px 36px rgba(15,18,34,.09); }
+    .ico { width: 42px; height: 42px; border-radius: 12px; background: var(--accent-soft); color: var(--accent); display: grid; place-items: center; margin-bottom: 16px; }
+    .card h3 { font-size: 17px; margin-bottom: 6px; letter-spacing: -.01em; }
+    .card p { color: var(--ink-2); font-size: 15px; }
+
+    /* Customization */
+    .custom { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: center; }
+    @media (max-width: 920px) { .custom { grid-template-columns: 1fr; } }
+    .params { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 480px) { .params { grid-template-columns: 1fr; } }
+    .param { display: flex; gap: 12px; align-items: flex-start; background: #fff; border: 1px solid var(--line); border-radius: 12px; padding: 14px; }
+    .param .ico { width: 34px; height: 34px; border-radius: 10px; margin: 0; flex-shrink: 0; }
+    .param b { display: block; font-size: 14px; }
+    .param span { font-size: 13px; color: var(--ink-3); }
+    .brands { display: flex; flex-direction: column; gap: 14px; }
+    .brand-row { display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 16px; box-shadow: var(--shadow); }
+    .brand-av { width: 42px; height: 42px; border-radius: 12px; display: grid; place-items: center; color: #fff; font-weight: 700; flex-shrink: 0; }
+    .brand-row .txt { flex: 1; min-width: 0; }
+    .brand-row b { font-size: 15px; display: block; }
+    .brand-row small { color: var(--ink-3); font-size: 13px; display: block; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .swatches { display: flex; gap: 4px; }
+    .swatches i { width: 14px; height: 14px; border-radius: 50%; border: 2px solid #fff; box-shadow: 0 0 0 1px var(--line); }
+
+    /* Security */
+    .steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: s; }
+    @media (max-width: 920px) { .steps { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .steps { grid-template-columns: 1fr; } }
+    .step { position: relative; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px; }
+    .step::before { counter-increment: s; content: counter(s); position: absolute; top: 18px; right: 18px; width: 26px; height: 26px; border-radius: 50%; background: var(--accent-soft); color: var(--accent-dark); font-size: 13px; font-weight: 700; display: grid; place-items: center; }
+    .step h3 { font-size: 16px; margin: 12px 0 6px; padding-right: 30px; }
+    .step p { font-size: 14px; color: var(--ink-2); }
+    .step .ico { margin: 0; }
+    .shield-list { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
+    .shield-list span { display: inline-flex; align-items: center; gap: 6px; font-size: 13px; font-weight: 500; color: var(--ink-2); background: #fff; border: 1px solid var(--line); padding: 7px 12px; border-radius: 999px; }
+    .shield-list svg { color: #16a34a; }
+
+    /* Integration */
+    .code { position: relative; background: #0f1222; color: #e5e7f5; border-radius: var(--radius); padding: 22px 22px; font: 14px/1.7 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; overflow-x: auto; box-shadow: 0 20px 50px rgba(15,18,34,.22); }
+    .code .t { color: #f472b6; } .code .a { color: #93c5fd; } .code .s { color: #86efac; } .code .c { color: #6b7194; }
+    .copy { position: absolute; top: 12px; right: 12px; font: 600 12px/1 inherit; font-family: "Inter", system-ui, sans-serif; color: #c7cae0; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.14); padding: 7px 10px; border-radius: 8px; cursor: pointer; }
+    .copy:hover { background: rgba(255,255,255,.14); color: #fff; }
+    .integ { display: grid; grid-template-columns: .9fr 1.1fr; gap: 48px; align-items: center; }
+    @media (max-width: 920px) { .integ { grid-template-columns: 1fr; } }
+    .checks { list-style: none; display: grid; gap: 12px; margin-top: 22px; }
+    .checks li { display: flex; gap: 10px; color: var(--ink-2); font-size: 15px; }
+    .checks svg { color: var(--accent); flex-shrink: 0; margin-top: 3px; }
+
+    /* Demo banner */
+    .demo { display: flex; gap: 18px; align-items: flex-start; background: linear-gradient(135deg, #fff7ed, #fffbeb); border: 1px solid #fde3b4; border-radius: var(--radius); padding: 24px; }
+    .demo .ico { background: #ffedd5; color: #c2410c; margin: 0; flex-shrink: 0; }
+    .demo h3 { font-size: 17px; margin-bottom: 4px; }
+    .demo p { color: #7c4a12; font-size: 15px; }
+    .demo code { background: rgba(194,65,12,.1); padding: 1px 6px; border-radius: 6px; font-size: 13px; }
+
+    footer { padding: 36px 0 110px; border-top: 1px solid var(--line); color: var(--ink-3); font-size: 14px; }
+    footer .wrap { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+
+    /* Toast */
+    .toast { position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px); background: var(--ink); color: #fff; padding: 12px 18px; border-radius: 12px; font-size: 14px; opacity: 0; pointer-events: none; transition: all .25s ease; z-index: 100; max-width: calc(100% - 32px); text-align: center; }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; scroll-behavior: auto !important; } }
+  </style>
+</head>
 <body>
-  <h1>Widget test page</h1>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <div class="wrap">
+      <a href="#" class="brand">
+        <span class="brand-mark">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.1A8.4 8.4 0 1 1 21 11.5z"/></svg>
+        </span>
+        Chat Assistant
+        <span class="pill">Demo</span>
+      </a>
+      <div class="nav-links">
+        <a href="#features">Features</a>
+        <a href="#customization">Customization</a>
+        <a href="#security">Security</a>
+        <a href="#integration">Integration</a>
+      </div>
+      <button class="btn btn-primary" data-open-chat>Try it live</button>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <header class="hero">
+    <div class="wrap">
+      <div>
+        <span class="eyebrow"><span class="dot"></span> Live demo, the assistant is running on this page</span>
+        <h1>An AI assistant <span class="grad">built for each business</span>, added with one line of code.</h1>
+        <p class="lead">
+          Chat Assistant is a chat widget a company can add to its website in seconds. Every company gets its own
+          assistant, with its colors, its name and knowledge of its services, ready to answer visitors around the clock.
+        </p>
+        <div class="hero-cta">
+          <button class="btn btn-primary" data-open-chat>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.4 8.4 0 0 1-9 8.4 8.6 8.6 0 0 1-3.8-.9L3 21l1.9-5.1A8.4 8.4 0 1 1 21 11.5z"/></svg>
+            Chat with the demo assistant
+          </button>
+          <a href="#features" class="btn btn-ghost">See what it can do</a>
+        </div>
+        <p class="hero-note">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17 17 7M17 7H8M17 7v9"/></svg>
+          Or click the chat bubble in the bottom-right corner.
+        </p>
+      </div>
+
+      <div>
+        <div class="mock" aria-hidden="true">
+          <div class="mock-head">
+            <div class="mock-av">A</div>
+            <div><b>Aria · Demo Store</b><small>● Online, usually replies instantly</small></div>
+          </div>
+          <div class="mock-body">
+            <div class="bub bot">Hi there 👋 I'm <b>Aria</b>. How can I help you today?</div>
+            <div class="bub user">Do you deliver on weekends?</div>
+            <div class="bub bot">Yes! We deliver <b>Saturday 9am–6pm</b>. Orders placed before Friday 8pm arrive the next day. 📦</div>
+            <div class="bub user">And returns?</div>
+            <div class="bub bot typing"><i></i><i></i><i></i></div>
+          </div>
+          <div class="mock-foot"><span>Type a message…</span><span>Powered by Chat Assistant</span></div>
+        </div>
+        <p class="mock-label">Example conversation. The real assistant is in the corner of this page.</p>
+      </div>
+    </div>
+  </header>
+
+  <!-- ── FEATURES ── -->
+  <section id="features" class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">What it can do</span>
+        <h2>A support agent on every page of the site</h2>
+        <p>The assistant answers customers' questions using the information each company provides, so visitors get help without waiting for a human.</p>
+      </div>
+      <div class="grid">
+        <div class="card">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+          <h3>Answers 24/7</h3>
+          <p>Questions about products, prices, opening hours, delivery or returns get an instant answer, day or night.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v14.5"/><path d="M4 19.5A2.5 2.5 0 0 0 6.5 22H20V17H6.5A2.5 2.5 0 0 0 4 19.5z"/></svg></div>
+          <h3>Knows the business</h3>
+          <p>Each assistant is given its company's own context: services, policies and tone of voice. It answers as part of the team.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/><path d="M8 9h8M8 13h5"/></svg></div>
+          <h3>Remembers the conversation</h3>
+          <p>The assistant takes the whole conversation into account, so visitors can ask follow-up questions naturally.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 6h16M4 12h10M4 18h7"/></svg></div>
+          <h3>Clear, formatted replies</h3>
+          <p>Answers can include lists, bold text and links, which makes them easy to read at a glance.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M3 9h18"/></svg></div>
+          <h3>Never clashes with the site</h3>
+          <p>The widget runs in its own isolated layer, so the website's styles can't break it and it never changes the website's look.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M11 18h2"/></svg></div>
+          <h3>Works everywhere</h3>
+          <p>Lightweight and accessible on desktop and mobile, with screen-reader support built in.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── CUSTOMIZATION ── -->
+  <section id="customization">
+    <div class="wrap custom">
+      <div>
+        <div class="sec-head" style="margin-bottom: 28px;">
+          <span class="kicker">Made for each company</span>
+          <h2>Every setting belongs to the company</h2>
+          <p>No two assistants look or talk alike. Each company sets up its own assistant, and the widget loads those settings automatically when the page opens.</p>
+        </div>
+        <div class="params">
+          <div class="param"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="13.5" cy="6.5" r="1.5"/><circle cx="17.5" cy="10.5" r="1.5"/><circle cx="8.5" cy="7.5" r="1.5"/><circle cx="6.5" cy="12.5" r="1.5"/><path d="M12 2C6.5 2 2 6.5 2 12s4.5 10 10 10c.9 0 1.6-.7 1.6-1.7 0-.4-.2-.8-.4-1.1-.3-.3-.4-.7-.4-1.1 0-.9.7-1.7 1.7-1.7h2c3 0 5.5-2.5 5.5-5.6C22 6 17.5 2 12 2z"/></svg></div><div><b>Brand colors</b><span>Main and accent colors, background</span></div></div>
+          <div class="param"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg></div><div><b>Name &amp; logo</b><span>The assistant's name and avatar</span></div></div>
+          <div class="param"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7H4M20 12H4M14 17H4"/></svg></div><div><b>Services &amp; context</b><span>What the company offers and its policies</span></div></div>
+          <div class="param"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div><div><b>Tone &amp; messages</b><span>Welcome message, placeholder, subtitle</span></div></div>
+          <div class="param"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7V4h16v3M9 20h6M12 4v16"/></svg></div><div><b>Typography</b><span>The font that matches the site</span></div></div>
+          <div class="param"><div class="ico"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M15 15h3v3"/></svg></div><div><b>Placement</b><span>Left or right, open on page load or not</span></div></div>
+        </div>
+      </div>
+
+      <div class="brands" aria-label="Examples of assistants for different companies">
+        <div class="brand-row">
+          <div class="brand-av" style="background:#e11d48">B</div>
+          <div class="txt"><b>Bella · Bakery Rosa</b><small>"Our croissants are baked fresh every morning at 6am 🥐"</small></div>
+          <div class="swatches"><i style="background:#e11d48"></i><i style="background:#fff1f2"></i></div>
+        </div>
+        <div class="brand-row">
+          <div class="brand-av" style="background:#0284c7">M</div>
+          <div class="txt"><b>Max · TechHub Electronics</b><small>"This laptop comes with a 2-year warranty and free setup."</small></div>
+          <div class="swatches"><i style="background:#0284c7"></i><i style="background:#f0f9ff"></i></div>
+        </div>
+        <div class="brand-row">
+          <div class="brand-av" style="background:#059669">L</div>
+          <div class="txt"><b>Lina · GreenLeaf Clinic</b><small>"You can book a consultation Monday to Saturday, 8am–7pm."</small></div>
+          <div class="swatches"><i style="background:#059669"></i><i style="background:#ecfdf5"></i></div>
+        </div>
+        <div class="brand-row">
+          <div class="brand-av" style="background:#d97706">S</div>
+          <div class="txt"><b>Sam · Atlas Travel</b><small>"Our 7-day Marrakech package includes flights and hotel."</small></div>
+          <div class="swatches"><i style="background:#d97706"></i><i style="background:#fffbeb"></i></div>
+        </div>
+        <p class="mock-label" style="margin-top:2px">Same widget, four companies: each with its own look, name and knowledge.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── SECURITY ── -->
+  <section id="security" class="alt">
+    <div class="wrap">
+      <div class="sec-head">
+        <span class="kicker">Security</span>
+        <h2>Protected by store ID verification</h2>
+        <p>Each company receives a unique <b>store ID</b>. Every request is checked on the server before the assistant answers, so nobody can use or copy another company's assistant.</p>
+      </div>
+      <div class="steps">
+        <div class="step">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="8" cy="15" r="4"/><path d="m10.8 12.2 9.2-9.2M17 6l3 3M15 8l2 2"/></svg></div>
+          <h3>Unique store ID</h3>
+          <p>The widget sends the company's store ID with every request it makes.</p>
+        </div>
+        <div class="step">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg></div>
+          <h3>Verified on the server</h3>
+          <p>The server checks that the store exists and its account is active. Unknown or disabled stores get no answer.</p>
+        </div>
+        <div class="step">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></div>
+          <h3>Approved websites only</h3>
+          <p>The assistant only answers on the company's own approved domains. Copying the code onto another site doesn't work.</p>
+        </div>
+        <div class="step">
+          <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+          <h3>Abuse protection</h3>
+          <p>Message limits per store stop spam and keep usage under control.</p>
+        </div>
+      </div>
+      <div class="shield-list">
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>The assistant's instructions never leave the server</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Every server response is validated</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Protection against style injection</span>
+        <span><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Fails gracefully, never breaks the host site</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── INTEGRATION ── -->
+  <section id="integration">
+    <div class="wrap integ">
+      <div>
+        <div class="sec-head" style="margin-bottom: 0;">
+          <span class="kicker">Integration</span>
+          <h2>Live in under a minute</h2>
+          <p>A company adds one line to its website. The widget does the rest: it loads the company's settings, applies its branding and connects to its assistant.</p>
+        </div>
+        <ul class="checks">
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Works with any website: WordPress, Shopify, custom sites…</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Nothing to install, no framework required</li>
+          <li><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Settings change without touching the website's code</li>
+        </ul>
+      </div>
+      <div class="code">
+        <button class="copy" id="copyBtn" type="button">Copy</button>
+<pre><span class="c">&lt;!-- Paste before &lt;/body&gt; --&gt;</span>
+<span class="t">&lt;script</span>
+  <span class="a">src</span>=<span class="s">"https://ai-assistant-5uw.pages.dev/chat-assistant.iife.js?storeId=YOUR_STORE_ID"</span>
+  <span class="a">async</span><span class="t">&gt;&lt;/script&gt;</span></pre>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── DEMO NOTICE ── -->
+  <section style="padding-top: 0;">
+    <div class="wrap">
+      <div class="demo">
+        <div class="ico"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v4h1"/></svg></div>
+        <div>
+          <h3>This is a demonstration page</h3>
+          <p>
+            The assistant on this page is connected to a sample store (<code>store_test123</code>). Its name, colors and knowledge
+            are demo settings. On a real company's website, every one of them is replaced by that company's own configuration.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="wrap">
+      <span>© <span id="year"></span> Chat Assistant · Demo</span>
+      <span>Built with React, TypeScript &amp; Vite</span>
+    </div>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    var toastEl = document.getElementById("toast");
+    var toastTimer;
+    function toast(msg) {
+      toastEl.textContent = msg;
+      toastEl.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function () { toastEl.classList.remove("show"); }, 2600);
+    }
+
+    // Open the real widget (it lives in an open Shadow DOM under #chat-assistant-root)
+    function openChat(attempt) {
+      attempt = attempt || 0;
+      var host = document.getElementById("chat-assistant-root");
+      var root = host && host.shadowRoot;
+      var fab = root && root.querySelector(".cw-fab");
+      if (fab) {
+        if (!root.querySelector(".cw-widget")) fab.click();
+        return;
+      }
+      if (attempt === 0) toast("The assistant is loading…");
+      if (attempt < 20) setTimeout(function () { openChat(attempt + 1); }, 250);
+      else toast("The assistant couldn't load. Please refresh the page.");
+    }
+    document.querySelectorAll("[data-open-chat]").forEach(function (btn) {
+      btn.addEventListener("click", function () { openChat(0); });
+    });
+
+    // Copy the integration snippet
+    document.getElementById("copyBtn").addEventListener("click", function () {
+      var snippet = '<script src="https://ai-assistant-5uw.pages.dev/chat-assistant.iife.js?storeId=YOUR_STORE_ID" async><\/script>';
+      try {
+        navigator.clipboard.writeText(snippet).then(
+          function () { toast("Snippet copied"); },
+          function () { toast("Couldn't copy, please select the code manually"); }
+        );
+      } catch (e) {
+        toast("Couldn't copy, please select the code manually");
+      }
+    });
+  </script>
+
+  <!-- The real assistant, connected to the demo store -->
   <script src="https://ai-assistant-5uw.pages.dev/chat-assistant.iife.js?storeId=store_test123" async></script>
 </body>
 </html>
